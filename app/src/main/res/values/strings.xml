@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Sakura</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="label_first">国内疫情</string>
+    <string name="label_sencond">国外疫情</string>
+    <string name="label_third">疫情地图</string>
+    <string name="hint_txt">Input Time</string>
+    <string name="label_time">请输入时间</string>
+    <string name="lable_nation">请输入国家</string>
+    <string name="lable_province">请输入省份</string>
+    <string name="lable_btn">查看</string>
+    <string name="label_checkworld">查看世界疫情情况</string>
+    <string name="label_checkchina">查看中国疫情情况</string>
+    <string name="label_confirm">确诊人数</string>
+    <string name="label_dead">死亡人数</string>
+    <string name="label_cure">治愈人数</string>
+    <string name="todo">TODO</string>
+</resources>
