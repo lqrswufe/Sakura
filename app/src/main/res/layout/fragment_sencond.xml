@@ -18,7 +18,7 @@
 
 
         <EditText
-            android:id="@+id/inpTime"
+            android:id="@+id/inpNews"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
@@ -26,24 +26,12 @@
             android:autofillHints=""
             android:ems="10"
             android:gravity="center"
-            android:hint="请输入时间"
-            android:inputType="textPersonName"
-            android:textSize="25sp" />
-
-        <EditText
-            android:id="@+id/inpNation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
-            android:autofillHints=""
-            android:ems="10"
-            android:gravity="center"
-            android:hint="请输入国家"
+            android:hint="@string/label_inpnews"
             android:inputType="textPersonName"
             android:textSize="25sp" />
 
         <Button
-            android:id="@+id/btn_1"
+            android:id="@+id/btn_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/holo_blue_light"

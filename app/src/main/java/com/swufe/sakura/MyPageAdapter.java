@@ -1,14 +1,20 @@
 package com.swufe.sakura;
 
+import android.widget.ArrayAdapter;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-public class MyPageAdapter extends FragmentPagerAdapter {
+import java.util.List;
+
+public class MyPageAdapter extends FragmentPagerAdapter  {
+    List<Fragment> fragmentList;
    private String[] title = new String[]{"国内疫情","国外疫情","疫情地图"};
     public MyPageAdapter(FragmentManager manager){
         super(manager);
+        this.fragmentList= fragmentList;
     }
     @NonNull
     @Override
@@ -17,7 +23,6 @@ public class MyPageAdapter extends FragmentPagerAdapter {
             return new FirstFragment();
         }else if(position==1){
             return new SencondFragment();
-
 
         }else{
             return new ThirdFragment();

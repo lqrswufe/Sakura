@@ -17,4 +17,5 @@
     <string name="label_dead">死亡人数</string>
     <string name="label_cure">治愈人数</string>
     <string name="todo">TODO</string>
+    <string name="label_inpnews">请输入标题</string>
 </resources>
