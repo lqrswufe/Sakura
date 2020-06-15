@@ -18,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -31,18 +32,16 @@ import java.util.HashMap;
 import java.util.List;
 
 public class MyListActivity  extends ListActivity implements Runnable, AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
-    private final String TAG = "Sakura";
+   private final String TAG = "Sakura";
     EditText input;
     Handler handler;
     int k =0;
     private ArrayList<HashMap<String, String>> listItems; // 存放文字、图片信息
     private SimpleAdapter listItemAdapter; // 适配器
     private int msgWhat = 7;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initListView();
         this.setListAdapter(listItemAdapter);
         Myadapter myAdapter = new Myadapter(this, R.layout.list_item, listItems);
         this.setListAdapter(myAdapter);
@@ -60,16 +59,17 @@ public class MyListActivity  extends ListActivity implements Runnable, AdapterVi
                             new int[]{R.id.itemTitle, R.id.itemDetail}
                     );
                     setListAdapter(listItemAdapter);
+                }else if (listItems.size() == 0) {
+                        Toast.makeText(MyListActivity.this, "无匹配结果", Toast.LENGTH_SHORT).show();
+                        Log.i(TAG, String.valueOf(listItems));
                 }
-
                 super.handleMessage(msg);
             }
         };
+
         getListView().setOnItemClickListener(this);//获得控件内容
         getListView().setOnItemLongClickListener(this);
-
     }
-
 
     private void initListView() {
         listItems = new ArrayList<HashMap<String, String>>();
@@ -89,6 +89,8 @@ public class MyListActivity  extends ListActivity implements Runnable, AdapterVi
 
     @Override
     public void run() {
+        SharedPreferences sharedPreferences = getSharedPreferences("myword", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
         Log.i("thread", "run.....");
         boolean marker = false;
         List<HashMap<String, String>> rateList = new ArrayList<HashMap<String, String>>();
@@ -97,6 +99,8 @@ public class MyListActivity  extends ListActivity implements Runnable, AdapterVi
             Elements tbs = doc.getElementsByClass("tableDataTable");
             Elements titles = doc.getElementsByTag("h3");
             for (Element e : titles) {
+                SharedPreferences sp = getSharedPreferences("myword", Activity.MODE_PRIVATE);
+                editor = sp.edit();
                 String title = e.select("a").text(); // 新闻标题
                 String address = e.select("a").attr("href");
                 HashMap<String, String> map = new HashMap<String, String>();
@@ -104,8 +108,12 @@ public class MyListActivity  extends ListActivity implements Runnable, AdapterVi
                 map.put("ItemDetail", address);
                 rateList.add(map);
                 Log.i(TAG, "getList: text=" + title + "==>" + address);
+                editor.putString("ItemTitle", title);
+                editor.putString("ItemDetail", address);
+                editor.commit();
             }
             marker = true;
+            contain();
         } catch (MalformedURLException e) {
             Log.e("www", e.toString());
             e.printStackTrace();
@@ -125,9 +133,8 @@ public class MyListActivity  extends ListActivity implements Runnable, AdapterVi
         Log.i("thread", "sendMessage.....");
     }
     private void contain() {
-        final SharedPreferences sp = getSharedPreferences("frg2", Activity.MODE_PRIVATE);
-        final SharedPreferences.Editor edi = sp.edit();
-        final List<String> ncpList = new ArrayList<String>();
+        final SharedPreferences sp = getSharedPreferences("myword", Activity.MODE_PRIVATE);
+        final SharedPreferences.Editor editor = sp.edit();
         //判断标题中是否包含关键词
         input = (EditText) findViewById(R.id.inpNews);
         input.addTextChangedListener(new TextWatcher() {
@@ -138,14 +145,13 @@ public class MyListActivity  extends ListActivity implements Runnable, AdapterVi
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
             }
-
             @Override
             public void afterTextChanged(Editable s) {
-                ncpList.clear();
+                listItems.clear();
                 for (int i = 0; i <= k + 1; i++) {
-                    String title = sp.getString(String.valueOf(i), "");
+                    String title = sp.getString("ItemTitle", "");
                     if (title.contains(s)) {
-                        ncpList.add(title);
+                        initListView();
                         Log.i("thread", "包含：" + title);
                     } else {
                         Log.i("thread", "不包含：");
@@ -154,8 +160,7 @@ public class MyListActivity  extends ListActivity implements Runnable, AdapterVi
             }
         });
         Message msg = handler.obtainMessage(5);
-
-        msg.obj = ncpList;
+        msg.obj = listItems;
         handler.sendMessage(msg);
 
         Log.i("thread", "sendMessage......");
@@ -204,4 +209,13 @@ public class MyListActivity  extends ListActivity implements Runnable, AdapterVi
 
     }
 }
+
+
+
+
+
+
+
+
+
 

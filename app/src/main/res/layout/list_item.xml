@@ -12,6 +12,7 @@
     android:paddingTop="16dp"
     tools:context=".MyListActivity"
     tools:ignore="MissingDefaultResource">
+
     <TextView
         android:id="@+id/itemTitle"
         android:layout_width="fill_parent"

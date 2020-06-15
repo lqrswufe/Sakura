@@ -3,27 +3,144 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
-
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".MainActivity">
-
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/sliding_tabs"
-
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:background="#ffffff"
-        app:tabIndicatorColor="@color/design_default_color_primary"
-        app:tabIndicatorHeight="8dp"
-        app:tabSelectedTextColor="#000000"
-        app:tabMode="fixed"/>
+        android:layout_height="wrap_content">
 
-    <androidx.viewpager.widget.ViewPager
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:id="@+id/viewpager">
+        <Button
+            android:id="@+id/query"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/cardview_light_background"
+            android:gravity="center"
+            android:text="疫情查询"
+            android:textSize="25sp"></Button>
+        <ImageView
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#252323"></ImageView>
 
-    </androidx.viewpager.widget.ViewPager>
+        <Button
+            android:id="@+id/search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/cardview_light_background"
+            android:gravity="center"
+            android:text="疫情热搜"
+            android:textSize="25sp"></Button>
+
+        <ImageView
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#252323"></ImageView>
+
+        <Button
+            android:id="@+id/map"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/cardview_light_background"
+            android:gravity="center"
+            android:text="疫情地图"
+            android:textSize="25sp"></Button>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="760dp"
+        android:background="#F3C9C9"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/china"
+            android:layout_width="match_parent"
+            android:layout_height="91dp"
+            android:layout_margin="20dp"
+            android:background="#F3C9C9"
+            android:drawableStart="@drawable/ic_china"
+            android:drawableLeft="@drawable/ic_china"
+            android:gravity="center"
+            android:text="@string/label_checkchina"
+            android:textSize="30sp"></Button>
+
+        <LinearLayout
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:background="#F49C9C"
+            android:orientation="vertical"
+            android:padding="10dp"></LinearLayout>
+
+        <Button
+            android:id="@+id/world"
+            android:layout_width="match_parent"
+            android:layout_height="91dp"
+            android:layout_margin="20dp"
+            android:background="#F3C9C9"
+            android:drawableStart="@drawable/ic_world"
+            android:drawableLeft="@drawable/ic_world"
+            android:gravity="center"
+            android:text="@string/label_checkworld"
+            android:textSize="30sp"></Button>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#F49C9C"
+            android:layout_margin="20dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableBottom="@drawable/ic_confrm"
+                android:gravity="center"
+                android:text="确诊人数"
+                android:textSize="20sp">
+
+            </TextView>
+
+            <ImageView
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#252323"></ImageView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableBottom="@drawable/ic_dead"
+                android:gravity="center"
+                android:text="死亡人数"
+                android:textSize="20sp">
+            </TextView>
+            <ImageView
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#252323"></ImageView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableBottom="@drawable/ic_cured"
+                android:gravity="center"
+                android:text="治愈人数"
+                android:textSize="20sp">
+
+            </TextView>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
 </LinearLayout>
+

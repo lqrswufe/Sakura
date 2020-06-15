@@ -9,7 +9,7 @@
     android:paddingRight="16dp"
     android:paddingLeft="16dp"
     android:paddingTop="16dp"
-    tools:context=".NCPActivity">
+    tools:context=".WorldActivity">
     <EditText
         android:id="@+id/inpTime"
         android:layout_width="match_parent"
@@ -24,14 +24,14 @@
         android:textSize="25sp" />
 
     <EditText
-        android:id="@+id/inpProvince"
+        android:id="@+id/inpNation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp"
         android:autofillHints=""
         android:ems="10"
         android:gravity="center"
-        android:hint="请输入省份"
+        android:hint="请输入国家"
         android:inputType="textPersonName"
         android:textSize="25sp" />
 
