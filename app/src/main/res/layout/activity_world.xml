@@ -5,51 +5,101 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingBottom="16dp"
-    android:paddingRight="16dp"
-    android:paddingLeft="16dp"
-    android:paddingTop="16dp"
+    android:background="@mipmap/bac"
     tools:context=".WorldActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#F5F5F5"
+        android:gravity="center"
+        android:text="@string/label_checkworld"
+        android:textSize="20sp" />
     <EditText
         android:id="@+id/inpTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="40dp"
+        android:layout_margin="20dp"
         android:autofillHints=""
         android:ems="10"
         android:gravity="center"
-        android:hint="请输入时间"
+        android:hint="@string/label_time"
         android:inputType="textPersonName"
         android:textSize="25sp" />
 
     <EditText
-        android:id="@+id/inpNation"
+        android:id="@+id/inpArea"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="20dp"
         android:layout_marginBottom="30dp"
         android:autofillHints=""
         android:ems="10"
         android:gravity="center"
-        android:hint="请输入国家"
+        android:hint="@string/lable_nation"
         android:inputType="textPersonName"
         android:textSize="25sp" />
 
     <Button
-        android:id="@+id/btn_1"
+        android:id="@+id/btn_2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/holo_blue_light"
         android:text="@string/lable_btn"
+        android:layout_margin="20dp"
         android:textSize="25sp"
         tools:text="查看" />
 
-    <TextView
-        android:id="@+id/showOut"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text=""
-        android:gravity="center"
-        android:textSize="30sp"/>
+        android:orientation="vertical"
+        android:layout_margin="20dp"
+        >
+
+        <TextView
+            android:id="@+id/result_area"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/res_area"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/result_confirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/label_confirm"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            tools:ignore="ExtraText" />
+
+        <TextView
+            android:id="@+id/result_dead"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/label_dead"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/result_cured"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/label_cure"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/world_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
 
 </LinearLayout>

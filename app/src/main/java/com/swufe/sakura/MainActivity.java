@@ -19,11 +19,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         checkChina=(Button) findViewById(R.id.china);
         checekWorld=(Button)findViewById(R.id.world);
         btn_2=(Button) findViewById(R.id.search);
-        btn_3=(Button) findViewById(R.id.map);
         checkChina.setOnClickListener(this);
         checekWorld.setOnClickListener(this);
         btn_2.setOnClickListener(this);
-        btn_3.setOnClickListener(this);
+
     }
     @Override
     public void onClick(View v) {
@@ -34,12 +33,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Intent intent = new Intent(MainActivity.this,WorldActivity.class);
                 startActivity(intent);
         }else if(v.getId()==R.id.search){
-            Intent intent = new Intent(MainActivity.this,SearchActivity.class);
+            Intent intent = new Intent(MainActivity.this, SearchActivity.class);
             startActivity(intent);
-        }else if(v.getId()==R.id.map){
-            Intent intent = new Intent(MainActivity.this,MyListActivity.class);
-            startActivity(intent);
-
         }
+
     }}
 

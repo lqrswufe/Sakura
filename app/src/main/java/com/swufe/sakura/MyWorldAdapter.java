@@ -13,10 +13,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Myadapter extends ArrayAdapter {
+public class MyWorldAdapter extends ArrayAdapter {
     private static final String TAG = "MyAdapter";
-    public Myadapter(Context context, int resource, ArrayList<HashMap<String,String>> list) {
+    public MyWorldAdapter(Context context, int resource, ArrayList<HashMap<String,String>> list) {
         super(context, resource, list);
+    }
+
+    public MyWorldAdapter(@NonNull Context context, int resource) {
+        super(context, resource);
     }
 
     @NonNull
@@ -24,7 +28,8 @@ public class Myadapter extends ArrayAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View itemView = convertView;
         if(itemView == null){
-            itemView = LayoutInflater.from(getContext()).inflate(R.layout.list_item,parent,false);
+            itemView = LayoutInflater.from(getContext()).inflate(R.layout.activity_world,parent,false);
+
         }
 
         Map<String,String> map = (Map<String, String>) getItem(position);

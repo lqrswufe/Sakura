@@ -2,45 +2,39 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/china_list"
     android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:layout_margin="16dp"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@mipmap/bac"
     tools:context=".SearchActivity">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="@string/search_top"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:background="#F5F5F5"
+            android:layout_centerInParent="true">
+
+        </TextView>
+
+
     <EditText
-        android:id="@+id/inpNews"
+        android:id="@+id/search_keyword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="40dp"
-        android:autofillHints=""
         android:ems="10"
-        android:gravity="center"
-        android:hint="@string/label_inpnews"
+        android:hint="@string/search_text"
         android:inputType="textPersonName"
-        android:textSize="25sp" />
-
-    <Button
-        android:id="@+id/btn_search"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/holo_blue_light"
-        android:text="@string/lable_btn"
-        android:textSize="25sp"
-        tools:text="查看" />
-
-    <TextView
-        android:id="@+id/showOut"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:text=""
-        android:gravity="center"
-        android:textSize="30sp"/>
+        android:textSize="20sp"
+        android:autofillHints="" />
 
     <ListView
+        android:id="@+id/search_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/search_list"/>
-
+        android:layout_height="match_parent" />
 
 </LinearLayout>

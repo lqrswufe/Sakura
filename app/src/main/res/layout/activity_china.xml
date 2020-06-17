@@ -5,22 +5,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingBottom="16dp"
-    android:paddingRight="16dp"
-    android:paddingLeft="16dp"
-    android:layout_margin="20dp"
-    android:paddingTop="16dp"
+    android:background="@mipmap/bac"
     tools:context=".ChinaActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#F5F5F5"
+        android:gravity="center"
+        android:text="@string/label_checkchina"
+        android:textSize="20sp">
+
+    </TextView>
+
     <EditText
         android:id="@+id/inpTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="40dp"
+        android:layout_margin="20dp"
         android:autofillHints=""
         android:ems="10"
         android:gravity="center"
-        android:hint="请输入时间"
+        android:hint="@string/label_time"
         android:inputType="textPersonName"
         android:textSize="25sp" />
 
@@ -28,11 +34,11 @@
         android:id="@+id/inpProvince"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
         android:autofillHints=""
         android:ems="10"
+        android:layout_margin="20dp"
         android:gravity="center"
-        android:hint="请输入省份"
+        android:hint="@string/lable_province"
         android:inputType="textPersonName"
         android:textSize="25sp" />
 
@@ -40,17 +46,63 @@
         android:id="@+id/btn_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/holo_blue_light"
+        android:background="#ADE2F6"
+        android:onClick="ChinaActivity"
+        android:layout_margin="20dp"
         android:text="@string/lable_btn"
         android:textSize="25sp"
+        tools:ignore="OnClick"
         tools:text="查看" />
 
-    <TextView
-        android:id="@+id/showOut"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text=""
-        android:gravity="center"
-        android:textSize="30sp"/>
+        android:orientation="vertical"
+        android:layout_margin="20dp"
+        >
+
+        <TextView
+            android:id="@+id/result_province"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/result_area"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/result_confirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/label_confirm"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            tools:ignore="ExtraText" />
+
+        <TextView
+            android:id="@+id/result_dead"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/label_dead"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/result_cured"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/label_cure"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/china_list"/>
 
 </LinearLayout>

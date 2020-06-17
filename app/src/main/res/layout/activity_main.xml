@@ -16,85 +16,81 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@color/cardview_light_background"
+            android:background="#F5f5f5"
             android:gravity="center"
-            android:text="疫情查询"
+            android:text="@string/label_first"
             android:textSize="25sp"></Button>
         <ImageView
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:background="#252323"></ImageView>
+            android:background="#252323"
+            android:contentDescription="@string/todo"></ImageView>
 
         <Button
             android:id="@+id/search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@color/cardview_light_background"
+            android:background="#F5f5f5"
             android:gravity="center"
-            android:text="疫情热搜"
+            android:text="@string/label_sencond"
             android:textSize="25sp"></Button>
 
         <ImageView
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:background="#252323"></ImageView>
+            android:background="#252323"
+            android:contentDescription="@string/todo"></ImageView>
 
-        <Button
-            android:id="@+id/map"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@color/cardview_light_background"
-            android:gravity="center"
-            android:text="疫情地图"
-            android:textSize="25sp"></Button>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="760dp"
-        android:background="#F3C9C9"
+        android:background="@mipmap/bac"
         android:orientation="vertical">
+
 
         <Button
             android:id="@+id/china"
             android:layout_width="match_parent"
-            android:layout_height="91dp"
-            android:layout_margin="20dp"
-            android:background="#F3C9C9"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp"
+            android:background="#00000000"
             android:drawableStart="@drawable/ic_china"
             android:drawableLeft="@drawable/ic_china"
             android:gravity="center"
             android:text="@string/label_checkchina"
-            android:textSize="30sp"></Button>
+            android:textSize="20sp"></Button>
 
-        <LinearLayout
-            android:id="@+id/line"
+        <ImageView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:background="#F49C9C"
-            android:orientation="vertical"
-            android:padding="10dp"></LinearLayout>
+            android:layout_height="1dp"
+
+            android:background="#252323"
+            android:contentDescription="@string/todo"></ImageView>
 
         <Button
             android:id="@+id/world"
             android:layout_width="match_parent"
-            android:layout_height="91dp"
+            android:layout_height="50dp"
             android:layout_margin="20dp"
-            android:background="#F3C9C9"
+            android:background="#00000000"
             android:drawableStart="@drawable/ic_world"
             android:drawableLeft="@drawable/ic_world"
             android:gravity="center"
             android:text="@string/label_checkworld"
-            android:textSize="30sp"></Button>
+            android:textSize="20sp"></Button>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#F49C9C"
             android:layout_margin="20dp"
+            android:background="#00000000"
             android:orientation="horizontal">
 
             <TextView
@@ -103,7 +99,7 @@
                 android:layout_weight="1"
                 android:drawableBottom="@drawable/ic_confrm"
                 android:gravity="center"
-                android:text="确诊人数"
+                android:text="@string/label_confirm"
                 android:textSize="20sp">
 
             </TextView>
@@ -111,7 +107,8 @@
             <ImageView
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="#252323"></ImageView>
+                android:background="#252323"
+                android:contentDescription="@string/todo"></ImageView>
 
             <TextView
                 android:layout_width="match_parent"
@@ -119,13 +116,14 @@
                 android:layout_weight="1"
                 android:drawableBottom="@drawable/ic_dead"
                 android:gravity="center"
-                android:text="死亡人数"
-                android:textSize="20sp">
-            </TextView>
+                android:text="@string/label_dead"
+                android:textSize="20sp"></TextView>
+
             <ImageView
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="#252323"></ImageView>
+                android:background="#252323"
+                android:contentDescription="@string/todo"></ImageView>
 
             <TextView
                 android:layout_width="match_parent"
@@ -133,7 +131,7 @@
                 android:layout_weight="1"
                 android:drawableBottom="@drawable/ic_cured"
                 android:gravity="center"
-                android:text="治愈人数"
+                android:text="@string/label_cure"
                 android:textSize="20sp">
 
             </TextView>

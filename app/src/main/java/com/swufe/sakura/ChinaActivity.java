@@ -2,18 +2,27 @@
 package com.swufe.sakura;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.text.method.LinkMovementMethod;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.jsoup.Jsoup;
@@ -22,42 +31,51 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.net.URL;
+import java.net.MalformedURLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-public class ChinaActivity extends AppCompatActivity implements Runnable, View.OnClickListener{
+import static com.swufe.sakura.R.id.btn_1;
+
+public class ChinaActivity extends AppCompatActivity implements Runnable,  AdapterView.OnItemClickListener,View.OnClickListener{
     EditText time;
-    EditText province;
-    EditText nation;
-    TextView showOut;
+    EditText inpprovince;
     Button btn;
+    TextView t1,t2,t3,t4;
+   String resprovince,resconfirm,resdead,rescured;
+    Map<String, String> map = new HashMap<String, String>();
     private final String TAG = "Sakura";
     Handler handler;
     private String Updatedate = "";
-    private String content = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_china);
+        final ListView listview = (ListView) findViewById(R.id.china_list);
+        SharedPreferences sharedPreferences = getSharedPreferences("mywords", Activity.MODE_PRIVATE);
         time = (EditText) findViewById(R.id.inpTime);
-        province = (EditText) findViewById(R.id.inpProvince);
-        btn= (Button) findViewById(R.id.btn_1);
-        nation = (EditText)findViewById(R.id.inpNation);
-        showOut = (TextView)findViewById(R.id.showOut);
-        showOut.setMovementMethod(LinkMovementMethod.getInstance());
+       t1= (TextView) findViewById(R.id.result_province);
+       t2= (TextView) findViewById(R.id.result_confirm);
+       t3= (TextView) findViewById(R.id.result_dead);
+       t4= (TextView) findViewById(R.id.result_cured);
+       inpprovince = (EditText) findViewById(R.id.inpProvince);
+        btn= (Button) findViewById(btn_1);
+        btn.setOnClickListener(this);
+
         //获取SP里面的数据
-        SharedPreferences sharedPreferences = getSharedPreferences("mywords", Activity.MODE_PRIVATE);//字符串，访问权限
-        content = sharedPreferences.getString("keyword", "");
         Updatedate = sharedPreferences.getString("update_date", "");
         //获取当前系统时间
         Date today = Calendar.getInstance().getTime();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         final String todayStr = sdf.format(today);
-
-        Log.i(TAG, "onCreate: sp keyword=" + content);
-        Log.i(TAG, "onCreate: sp Updatedate=" + Updatedate);
+        Log.i(TAG, "onCreate: sp keyword=" + resprovince);
+        Log.i(TAG, "onCreate: sp keyword=" + resconfirm);
+        Log.i(TAG, "onCreate: sp keyword=" + rescured);
         Log.i(TAG, "onCreate: sp updateDate=" + Updatedate);
         Log.i(TAG, "onCreate: todayStr=" + todayStr);
 //判断时间
@@ -69,25 +87,27 @@ public class ChinaActivity extends AppCompatActivity implements Runnable, View.O
         }else{
             Log.i(TAG, "onCreate: 不需要更新");
         }
-
-        Thread t = new Thread(this);//要记得加当前对象,才能调用到Run方法,t就代表当前线程
-        t.start();
-
+      Thread t = new Thread(this);//要记得加当前对象,才能调用到Run方法,t就代表当前线程
+         t.start();
 
         handler = new Handler() {
             public void handleMessage(Message msg) {
                 //将子线程带回到主线程
                 if (msg.what == 5) {//5是判断从哪个线程得到的数据
-                    Bundle bdl = (Bundle) msg.obj;
-                    content = bdl.getString("keyword");
-                    // Log.i(TAG, "handleMessage: keyword=" + content);
-                    //保存更新日期
-                    SharedPreferences sharedPreferences = getSharedPreferences("mywords", Activity.MODE_PRIVATE);//要记得获取和写入的文件名要一样，都是myrate
+                    List<String> List2 = (List<String>) msg.obj;
+                    if (List2.size() == 0) {
+                        Toast.makeText(ChinaActivity.this, "无匹配结果", Toast.LENGTH_SHORT).show();
+                        Log.i(TAG, String.valueOf(List2));
+                    } else {
+                        Log.i(TAG, String.valueOf(List2));
+                    }
+                    ListAdapter adapter = new ArrayAdapter<String>(ChinaActivity.this, android.R.layout.simple_list_item_1, List2);
+                    listview.setAdapter(adapter);
+                    //用SP保存时间
+                    SharedPreferences sharedPreferences = getSharedPreferences("mywords", Activity.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("update_date", todayStr);
-                    editor.putString("keyword", content);
                     editor.apply();
-                    Toast.makeText(ChinaActivity.this, "数据已更新", Toast.LENGTH_SHORT).show();
                 }
                 super.handleMessage(msg);
             }
@@ -96,50 +116,119 @@ public class ChinaActivity extends AppCompatActivity implements Runnable, View.O
             //匿名类改写，相当于重新创建一个类 Handler就是拿到消息之后怎么处理
 
         };
-    }
+        listview.setOnItemClickListener((AdapterView.OnItemClickListener) this);
 
+    }
 
     @Override
     public void run() {
+        SharedPreferences sharedPreferences = getSharedPreferences("mywords", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
         Log.i(TAG, "run: run().....");
         try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
+            Document doc = Jsoup.connect( "https://m.sinovision.net/newpneumonia.php").get();
+            Elements tbs = doc.getElementsByClass("todaydata");
+            Element table = tbs.get(6);
+            //Log.i(TAG, "run: table6=" + table);
+            Elements prod = table.getElementsByClass("prod");
+            int i=0;
+            for (Element e : prod) {
+                Elements spans = e.getElementsByTag("span");
+                Element td1 = spans.get(0);
+                Element td2 = td1.nextElementSibling();
+                Element td3 = td2.nextElementSibling();
+                Element td4 = td3.nextElementSibling();
+                String str1 = td1.text();
+                String str2 = td2.text();
+                String str3 = td3.text();
+                String str4 = td4.text();
+                String tt = str1.concat("确诊人数：").concat(str2).concat("死亡人数：").concat(str3).concat("治愈人数").concat(str4);
+                Log.i(TAG, "run: "+tt);
+                editor.putString(String.valueOf(i), tt);
+                editor.commit();
+                i++;
+            }
+            query();
+           /* int j =1;
+              for (Element e : prod) {
+                  Elements spans = e.getElementsByTag("span");
+                  Element td1 = spans.get(0);
+                  Element td2 = td1.nextElementSibling();
+                  String str2 = td2.text();
+                  Log.i(TAG, "run: ["+j+"]"+str2);
+                  editor.putString(String.valueOf(j), str2);
+                  editor.commit();
+                  j += 4;
+              }
+              int m =2;
+                  for (Element e : prod) {
+                      Elements spans = e.getElementsByTag("span");
+                      Element td1 = spans.get(0);
+                      Element td2 = td1.nextElementSibling();
+                      Element td3 = td2.nextElementSibling();
+                      String str3 = td3.text();
+                      editor.putString(String.valueOf(m), str3);
+                      Log.i(TAG, "run: ["+m+"]" +str3);
+                      editor.commit();
+                      m+= 4;
+                  }
+                  int n=3;
+                      for (Element e : prod) {
+                          Elements spans = e.getElementsByTag("span");
+                          Element td1 = spans.get(0);
+                          Element td2 = td1.nextElementSibling();
+                      Element td3 = td2.nextElementSibling();
+                      Element td4 = td3.nextElementSibling();
+                      String str4 = td4.text();
+                          Log.i(TAG, "run: ["+n+"] "+str4);
+                    editor.putString(String.valueOf(n), str4);
+                          editor.commit();
+                 n+=4;
+            }*/
+        } catch (MalformedURLException e) {
+            Log.e("www", e.toString());
+            e.printStackTrace();
+        } catch (IOException e) {
+            Log.e("www", e.toString());
             e.printStackTrace();
         }
-        Bundle bundle = new Bundle();
-        URL url = null;
-        //将msg发送到队列里
-        //2同步加引入包
-        bundle = getChina();
-        Message msg = handler.obtainMessage(5);//取出来一个消息队列
-        msg.obj = bundle;
+
+    }
+    private void query() {
+        final SharedPreferences sp = getSharedPreferences("mywords", Activity.MODE_PRIVATE);
+        final SharedPreferences.Editor editor = sp.edit();
+        final List<String> searchList = new ArrayList<String>();
+        //判断标题中是否包含关键词
+        inpprovince = (EditText) findViewById(R.id.inpProvince);
+        inpprovince.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+                searchList.clear();
+                for (int i = 0; i <=50; i++) {
+                    String title = sp.getString(String.valueOf(i), "");
+                    if (title.contains(s)) {
+                        searchList.add(title);
+                        Log.i("thread", "包含：" + title);
+                    } else {
+                        Log.i("thread", "不包含：");
+                    }
+                }
+            }
+        });
+        Message msg = handler.obtainMessage(5);
+        msg.obj = searchList;
         handler.sendMessage(msg);
     }
     /*
     从网页获取数据* */
-    private Bundle getChina() {
-        Bundle bundle = new Bundle();
-        Document doc = null;
-        try {
-            String url = "https://m.sinovision.net/newpneumonia.php";
-            doc = Jsoup.connect(url).get();
-            Elements tbs = doc.getElementsByClass("todaydata");
-            Element table=tbs.get(6);
-            //Log.i(TAG, "run: table6=" + table);
-            Elements spans = table.getElementsByClass("prod");
-            for (int i = 0; i <spans.size(); i++) {
-                Element td1 = spans.get(i);
-                String str1 = td1.text();
-                Log.i(TAG, "run: text=" + str1);
 
-            }
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return bundle;
-    }
    /* private Bundle getWorld()  {
         Bundle bundle = new Bundle();
         Document doc = null;
@@ -162,26 +251,53 @@ public class ChinaActivity extends AppCompatActivity implements Runnable, View.O
     }*/
     @Override
     public void onClick(View v) {
-        Log.i(TAG, "onClick: ");
-        String strtime = time.getText().toString();
-        String strprovince = province.getText().toString();
-        Log.i(TAG, "onClick:get str= " + strtime+strprovince);
-        if (strtime.length() == 0 || strtime == null) {
-            //提示用户输入信息
-            Toast.makeText(this, "请输入时间", Toast.LENGTH_SHORT).show();
-        } else if (strprovince.length() == 0 || strprovince == null) {
-            //提示用户输入信息
-            Toast.makeText(this, "请输入地区", Toast.LENGTH_SHORT).show();
-        }
-        if (btn.getId() == R.id.btn_1) {
-            if (content != null && content.contains((CharSequence) strprovince)) {
-                showOut.setText(content);
-            } else {
-                showOut.setText("无匹配数据");
+        final SharedPreferences sp = getSharedPreferences("mywords", Activity.MODE_PRIVATE);
+        final SharedPreferences.Editor editor = sp.edit();
+        if (v.getId() == R.id.btn_1) {
+            Log.i(TAG, "onClick: ");
+            String strtime = time.getText().toString();
+            String strprovince = inpprovince.getText().toString();
+            Log.i(TAG, "onClick:get str= " + strtime + strprovince);
+            if ((strtime.length() == 0) || (strtime == null)) {
+                //提示用户输入信息
+                Toast.makeText(this, "请输入时间", Toast.LENGTH_SHORT).show();
+            } else if (strprovince.length() == 0 || strprovince == null) {
+                //提示用户输入信息
+                Toast.makeText(this, "请输入地区", Toast.LENGTH_SHORT).show();
+            }
             }
 
         }
+
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Log.i(TAG, "onItemClick:parents = " + parent);
+        Log.i(TAG, "onItemClick:view = " + view);
+        Log.i(TAG, "onItemClick:position = " + position);
+        Log.i(TAG, "onItemClick:id = " + id);
+        SharedPreferences sharedPreferences = getSharedPreferences("mywords", Activity.MODE_PRIVATE);
+        String Position = String.valueOf(position);
+        String Position1 = String.valueOf(position+1);
+        String Position2= String.valueOf(position+2);
+        String Position3= String.valueOf(position+3);
+        String povince = sharedPreferences.getString(Position, "");
+        String confirm = sharedPreferences.getString(Position1, "");
+        String dead = sharedPreferences.getString(Position2, "");
+        String cured = sharedPreferences.getString(Position3, "");
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.china,menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId()==R.id.menu_set) {
+            Intent intent = new Intent(this, MyListActivity.class);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }
 
 
