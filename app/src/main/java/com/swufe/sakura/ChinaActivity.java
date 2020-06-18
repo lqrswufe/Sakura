@@ -217,6 +217,8 @@ public class ChinaActivity extends AppCompatActivity implements Runnable,  Adapt
                         Log.i("thread", "包含：" + title);
                     } else {
                         Log.i("thread", "不包含：");
+                        Toast.makeText(ChinaActivity.this, "无匹配结果", Toast.LENGTH_SHORT).show();
+
                     }
                 }
             }

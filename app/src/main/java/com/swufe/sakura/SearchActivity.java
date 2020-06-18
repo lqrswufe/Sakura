@@ -153,8 +153,6 @@ public class SearchActivity extends AppCompatActivity implements Runnable, Adapt
                     if (title.contains(s)) {
                         searchList.add(title);
                         Log.i("thread", "包含：" + title);
-                    } else {
-                        Log.i("thread", "不包含：");
                     }
                 }
             }
@@ -170,9 +168,9 @@ public class SearchActivity extends AppCompatActivity implements Runnable, Adapt
         Log.i(TAG, "onItemClick:id = " + id);
         SharedPreferences sharedPreferences = getSharedPreferences("myword", Activity.MODE_PRIVATE);
             String Position = String.valueOf(position+1);
-            String URL = sharedPreferences.getString(Position, "");
-        Log.i("TAG", "run=" + URL);
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(URL));
+            String address = sharedPreferences.getString(Position, "");
+        Log.i("TAG", "run=" + address);
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(address));
        startActivity(intent);
     }
 
